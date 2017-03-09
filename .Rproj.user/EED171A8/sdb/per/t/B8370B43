@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "# 6.5 Lab 1: Subset Selection Methods ====\n# 6.5.1 Best Subset Selection ====\nlibrary(ISLR)\nfix(Hitters)\n?fix\nnames(Hitters)\ndim(Hitters)\nsum(is.na(Hitters$Salary))\nHitters <- na.omit(Hitters)\ndim(Hitters)\nsum(is.na(Hitters))\n\nlibrary(leaps)\nregfit.full <- regsubsets(Salary ~ ., Hitters)\nsummary(regfit.full)\n\nregfit.full <- regsubsets(Salary ~ ., data = Hitters, nvmax = 19)\nreg.summary <- summary(regfit.full)\nnames(reg.summary)\nreg.summary$rsq\npar(mfrow = c(2,2))\nplot(reg.summary$rss, xlab = \"Number of Variables\", \n     ylab = \"RSS\",\n     type = 'l')\nplot(reg.summary$adjr2,\n     xlab = \"Number of Variables\",\n     ylab = \"Adjusted RSq\", \n     type = 'l')\nwhich.max(reg.summary$adjr2)\npoints(11, reg.summary$adjr2[11], col = \"red\", cex = 2, pch = 20)\nplot(reg.summary$cp,\n     xlab = \"Number of Variables\",\n     ylab = \"Cp\",\n     type = 'l')\nwhich.min(reg.summary$cp)\npoints(10, reg.summary$cp[10], col = \"red\", cex = 2, pch = 20)\nwhich.min(reg.summary$bic)\nplot(reg.summary$bic, \n     xlab = \"Number of Variables\", \n     ylab = \"BIC\",\n     type = \"l\")\npoints(6, reg.summary$bic[6], col = \"red\", cex = 2, pch = 20)\n\nplot(regfit.full, scale = \"r2\")\nplot(regfit.full, scale = \"adjr2\")\nplot(regfit.full, scale = \"Cp\")\nplot(regfit.full, scale = \"bic\")\ncoef(regfit.full, 6)\n\n# 6.5.2 Forward and Backward Stepwise Selection ====\nregfit.fwd <- regsubsets(Salary ~ ., \n                         data = Hitters,\n                         nvmax = 19, \n                         method = \"forward\")\nsummary(regfit.fwd)\nregfit.bwd <- regsubsets(Salary ~ .,\n                         data = Hitters,\n                         nvmax = 19,\n                         method = \"backward\")\nsummary(regfit.bwd)\ncoef(regfit.full, 7)\ncoef(regfit.fwd, 7)\ncoef(regfit.bwd, 7)\n\n# 6.5.3 Choosing Among Models: Vald set and Cross-valid ====\nset.seed(1)\ntrain <- sample(c(TRUE, FALSE), nrow(Hitters), rep = TRUE)\ntest <- (!train)\nregfit.best <- regsubsets(Salary ~ ., \n                          data = Hitters[train, ],\n                          nvmax = 19)\ntest.mat <- model.matrix(Salary ~ ., \n                         data = Hitters[test, ])\ntest.mat\nval.errors <- rep(NA, 19)\nfor (i in 1:19) {\n  coefi = coef(regfit.best, id = i)\n  pred = test.mat[,names(coefi)] %*% coefi\n  val.errors[i] = mean((Hitters$Salary[test] - pred) ^ 2)\n}\nval.errors\nwhich.min(val.errors)\ncoef(regfit.best,10)\npredict.regsubsets <- function(object, newdata, id, ...) {\n  form <- as.formula(object$call[[2]])\n  mat <- model.matrix(form, newdata)\n  coefi <- coef(object, id = id)\n  xvars <- names(coefi)\n  mat[, xvars] %*% coefi\n}\n\nregfit.best <- regsubsets(Salary ~ ., \n                          data = Hitters,\n                          nvmax = 19)\ncoef(regfit.best, 10)\n",
+    "created" : 1488094789354.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3712504498",
+    "id" : "B8370B43",
+    "lastKnownWriteTime" : 1489001523,
+    "last_content_update" : 1489001523740,
+    "path" : "~/DataScience/ISLR/6_LinearModelSelection.R",
+    "project_path" : "6_LinearModelSelection.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "?contour\nx <- rnorm(100)\ny <- rnorm(100)\nplot(x,y)\n\nx <- seq(-pi, pi, length = 50)\ny <- x\nf <- outer(x, y, function(x, y) cos(y)/(1 + x^2))\nf\nhead(f)\ncontour(x, y, f)\ncontour(x, y, f, nlevels = 45, add = T)\nfa <- (f - t(f))/2\ncontour(x, y, fa, nlevels = 15)\n\nimage(x, y, fa)\npersp(x, y, fa)\npersp(x, y, fa, theta = 30)\npersp(x, y, fa, theta = 30, phi = 20)\npersp(x, y, fa, theta = 30, phi = 70)\npersp(x, y, fa, theta = 30, phi = 40)\n\n2.3.3 Indexing data\nA = matrix(1:16, 4, 4)\nA\nA[2,3]\nA[c(1,3), c(2,4)]\nA[1:3, 2:4]\n\nAuto <- read.table(\"Auto.data\")\nfix(Auto)\nAuto <- read.table(\"Auto.data\", header = T, na.strings = \"?\")\nfix(Auto)\nAuto <- read.csv(\"Auto.csv\", header = T, na.strings = \"?\")\ndim(Auto)\nAuto <- na.omit(Auto)\nnames(Auto)\nplot(Auto$cylinders, Auto$mpg)\nattach(Auto)\nplot(cylinders, mpg)\ntypeof(cylinders)\ncylinders <- as.factor(cylinders)\nplot(cylinders, mpg)\nplot(cylinders, mpg, col = 'red')\nplot(cylinders, mpg, col = 'red', varwidth = T)\nplot(cylinders, mpg, col = 'red', varwidth = T, horizontal = T)\nplot(cylinders, mpg, col = 'red', varwidth = T, xlab = \"cylinders\", \n     ylab = \"mpg\")\ntypeof(Auto$cylinders)\nhist(mpg)\nhist(mpg, col = 2)\nhist(mpg, col = 2, breaks = 15)\n\npairs(Auto)\npairs(~ mpg + displacement + horsepower + weight + acceleration, Auto)\nsearch()\ndetach(Auto)\n\nattach(Auto)\nplot(horsepower, mpg)\nidentify(horsepower, mpg, name) # !!!!!!!!!!!!!!!!!1\nsummary(Auto)\nsummary(cylinders)\nsummary(Auto$cylinders)\nsearch()\ndetach(Auto)\n\n# Exercises\nQ7 <- data.frame(X1 = c(0, 2, 0, 0, -1, 1),\n                 X2 = c(3, 0, 1, 1, 0, 1),\n                 X3 = c(0, 0, 3, 2, 1, 1),\n                 Y = as.factor(c(\"R\", \"R\", \"R\", \"G\", \"G\", \"R\")))\nQ7\ntest <- rep(0, 3)\ntest\ndist(test, as.matrix(Q7[,1:3]))\n?dist\ndist(test, Q7[1,1:3])\nQ7[1,1:3]\ndist(rbind(test, Q7[1,1:3]))\nDistance <- numeric()\nfor (i in 1:nrow(Q7)) {\n  Distance[i] <- dist(rbind(test, Q7[i, 1:3]))\n}\nQ7$Distance <- Distance  \nQ7\n\n# 8\nlibrary(ISLR)\ndata(\"College\")\nrm(college)\nnames(College)\ncollege <- College\nfix(college)\nView(college)\nhead(college)\nrownames(college)\nsummary(college)\npairs(college[1:10])\n?par\npar()\npar(mfrow = c(2,2))\nplot(college$Private, college$Outstate)\npar(mfrow  = c(1,1))\n\nElite = rep(\"No\", nrow(college))\nElite[college$Top10perc > 50] = \"Yes\"\nElite <- as.factor(Elite)\ncollege <- data.frame(college, Elite)\nsummary(college)\nplot(college$Elite, college$Outstate)\npar(mfrow = c(2,2))\nattach(college)\nhist(Apps)\nhist(Personal)\nhist(Books)\nhist(Accept)\npar(mfrow = c(1,1))\ndetach(college)\n\n# 9\ntable(is.na(Auto))\nsummary(Auto)\nrange(Auto$mpg)\nmean(Auto$mpg)\nAutoSub <- Auto[-(10:85),]\nAutoSub[1:20,]\nmean(AutoSub$mpg)\nstr(Auto)\nAuto$cylinders <- as.factor(Auto$cylinders)\nAuto$year <- as.factor(Auto$year)\nAuto$origin <- as.factor(Auto$origin)\npairs(Auto)\nplot(Auto$cylinders, Auto$mpg)\nAuto$horsepower <- as.numeric(Auto$horsepower)\ncor(Auto$weight, Auto$horsepower)\ncor(Auto$weight, Auto$displacement)\ncor(Auto$displacement, Auto$horsepower)\n\n# 10\nlibrary(MASS)\nBoston\n?Boston\ndim(Boston)\npairs(Boston)\nhist(Boston$crim, breaks = 50)\nhist(Boston$tax, breaks = 50)\nhist(Boston$ptratio, breaks = 50)\ntable(Boston$chas)\nmedian(Boston$ptratio)\n\nrow.names(Boston[min(Boston$medv), ])\nBoston[5,]\nnrow(Boston[Boston$rm > 7,])\nnrow(Boston[Boston$rm > 8,])\n",
+    "created" : 1482301431425.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3164728598",
+    "id" : "A18FAF57",
+    "lastKnownWriteTime" : 1482415783,
+    "last_content_update" : 1482415783720,
+    "path" : "~/DataScience/ISLR/2_Statistical_learning.R",
+    "project_path" : "2_Statistical_learning.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
