@@ -1,7 +1,7 @@
 # 6.5 Lab 1: Subset Selection Methods ====
 # 6.5.1 Best Subset Selection ====
 library(ISLR)
-fix(Hitters)
+#fix(Hitters)
 ?fix
 names(Hitters)
 dim(Hitters)
